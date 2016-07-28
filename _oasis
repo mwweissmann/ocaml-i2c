@@ -1,0 +1,34 @@
+OASISFormat: 0.4
+Name:        i2c
+Version:     0.1.0
+Synopsis:    bindings to i2c-dev, the Linux i2c bus interface
+Authors:     Markus W. Weissmann <markus.weissmann@in.tum.de>
+Maintainers: Markus W. Weissmann <markus.weissmann@in.tum.de>
+Homepage:    https://github.com/mwweissmann/ocaml-i2c/
+License:     MIT
+Plugins:     META (0.4)
+
+Library "i2c"
+  Path:       src
+  CSources:   i2c_stubs.c, i2c-dev.h
+  CCOpt:      -O2 -Wall -Wextra -Wno-unused-parameter -I $libdir
+  BuildTools: ocamlbuild
+  Modules:    I2c
+  BuildDepends: unix, result, stdint
+
+Document doclib
+  Title:                API reference for i2c-dev
+  Type:                 ocamlbuild (0.3)
+  Install:              false
+  BuildTools+:          ocamlbuild, ocamldoc
+  XOCamlbuildPath:      src
+  XOCamlbuildLibraries: i2c
+
+Executable "mcp23017"
+  Path:       examples
+  MainIs:     mcp23017.ml
+  BuildDepends: i2c
+  CompiledObject: best
+  BuildTools: ocamlbuild
+  Install: false
+

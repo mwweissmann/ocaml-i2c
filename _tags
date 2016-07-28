@@ -1,0 +1,37 @@
+# OASIS_START
+# DO NOT EDIT (digest: e2890f2f25b6d4a3c9d72a99f02bdfde)
+# Ignore VCS directories, you can use the same kind of rule outside
+# OASIS_START/STOP if you want to exclude directories that contains
+# useless stuff for the build process
+true: annot, bin_annot
+<**/.svn>: -traverse
+<**/.svn>: not_hygienic
+".bzr": -traverse
+".bzr": not_hygienic
+".hg": -traverse
+".hg": not_hygienic
+".git": -traverse
+".git": not_hygienic
+"_darcs": -traverse
+"_darcs": not_hygienic
+# Library i2c
+"src/i2c.cmxs": use_i2c
+<src/*.ml{,i,y}>: oasis_library_i2c_ccopt
+"src/i2c_stubs.c": oasis_library_i2c_ccopt
+<src/i2c.{cma,cmxa}>: use_libi2c_stubs
+<src/*.ml{,i,y}>: pkg_result
+<src/*.ml{,i,y}>: pkg_stdint
+<src/*.ml{,i,y}>: pkg_unix
+"src/i2c_stubs.c": pkg_result
+"src/i2c_stubs.c": pkg_stdint
+"src/i2c_stubs.c": pkg_unix
+# Executable mcp23017
+<examples/mcp23017.{native,byte}>: pkg_result
+<examples/mcp23017.{native,byte}>: pkg_stdint
+<examples/mcp23017.{native,byte}>: pkg_unix
+<examples/mcp23017.{native,byte}>: use_i2c
+<examples/*.ml{,i,y}>: pkg_result
+<examples/*.ml{,i,y}>: pkg_stdint
+<examples/*.ml{,i,y}>: pkg_unix
+<examples/*.ml{,i,y}>: use_i2c
+# OASIS_STOP
