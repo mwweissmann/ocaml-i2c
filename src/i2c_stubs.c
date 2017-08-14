@@ -18,8 +18,8 @@
 #include <caml/fail.h>
 #include <caml/unixsupport.h>
 
-#include <stdint/uint8.h>
-#include <stdint/uint16.h>
+#include <ocaml_stdint/uint8.h>
+#include <ocaml_stdint/uint16.h>
 
 #include "i2c-dev.h"
 
@@ -117,7 +117,7 @@ CAMLprim value wrap_i2c_smbus_read_byte(value ofd) {
   }
 
   result = caml_alloc(1, 0); // Result.Ok of uint8
-  Store_field(result, 0, copy_uint8(rv));
+  Store_field(result, 0, Val_uint8(rv));
   goto END;
 
 ERROR:
@@ -185,7 +185,7 @@ CAMLprim value wrap_i2c_smbus_read_byte_data(value ofd, value ov) {
   }
 
   result = caml_alloc(1, 0); // Result.Ok of uint8
-  Store_field(result, 0, copy_uint8(rv));
+  Store_field(result, 0, Val_uint8(rv));
   goto END;
 
 ERROR:
@@ -254,7 +254,7 @@ CAMLprim value wrap_i2c_smbus_read_word_data(value ofd, value ov) {
   }
 
   result = caml_alloc(1, 0); // Result.Ok ()
-  Store_field(result, 0, copy_uint16(rv));
+  Store_field(result, 0, Val_uint16(rv));
   goto END;
 
 ERROR:
@@ -325,8 +325,8 @@ CAMLprim value wrap_i2c_smbus_process_call(value ofd, value ocmd, value ov) {
     goto ERROR;
   }
 
-  rv = caml_alloc(1, 0); // Result.Ok of uint16
-  Store_field(result, 0, copy_uint16(rv));
+  result = caml_alloc(1, 0); // Result.Ok of uint16
+  Store_field(result, 0, Val_uint16(rv));
   goto END;
 
 ERROR:
@@ -365,7 +365,7 @@ CAMLprim value wrap_i2c_smbus_read_block_data(value ofd, value ocmd) {
   head = Val_emptylist;
   for (i = rv - 1; i <= 0; i--) {
     tail = caml_alloc(2, 0);
-    Store_field(tail, 0, copy_uint8(vs[i]));
+    Store_field(tail, 0, Val_uint8(vs[i]));
     Store_field(tail, 1, head);
     head = tail;
   }
@@ -448,7 +448,7 @@ CAMLprim value wrap_i2c_smbus_read_i2c_block_data(value ofd, value ocmd, value o
   head = Val_emptylist;
   for (i = length - 1; i <= 0; i--) {
     tail = caml_alloc(2, 0);
-    Store_field(tail, 0, copy_uint8(vs[i]));
+    Store_field(tail, 0, Val_uint8(vs[i]));
     Store_field(tail, 1, head);
     head = tail;
   }
@@ -545,7 +545,7 @@ CAMLprim value wrap_i2c_smbus_block_process_call(value ofd, value ocmd, value ov
   head = Val_emptylist;
   for (i = length - 1; i <= 0; i--) {
     tail = caml_alloc(2, 0);
-    Store_field(tail, 0, copy_uint8(vs[i]));
+    Store_field(tail, 0, Val_uint8(vs[i]));
     Store_field(tail, 1, head);
     head = tail;
   }
