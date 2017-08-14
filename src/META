@@ -1,6 +1,6 @@
 # OASIS_START
-# DO NOT EDIT (digest: 759adcdcbc9ee4422c63709f6399999c)
-version = "0.1.1"
+# DO NOT EDIT (digest: c8d79e69c44592db0ffa8d55eb012b1f)
+version = "0.1.2"
 description = "bindings to i2c-dev, the Linux i2c bus interface"
 requires = "unix result stdint"
 archive(byte) = "i2c.cma"
