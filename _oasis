@@ -1,6 +1,6 @@
 OASISFormat: 0.4
 Name:        i2c
-Version:     0.1.0
+Version:     0.1.1
 Synopsis:    bindings to i2c-dev, the Linux i2c bus interface
 Authors:     Markus W. Weissmann <markus.weissmann@in.tum.de>
 Maintainers: Markus W. Weissmann <markus.weissmann@in.tum.de>
@@ -11,7 +11,7 @@ Plugins:     META (0.4)
 Library "i2c"
   Path:       src
   CSources:   i2c_stubs.c, i2c-dev.h
-  CCOpt:      -O2 -Wall -Wextra -Wno-unused-parameter -I $libdir
+  CCOpt:      -O2 -Wall -Wextra -Wno-unused-parameter -I $pkg_stdint/../../include
   BuildTools: ocamlbuild
   Modules:    I2c
   BuildDepends: unix, result, stdint
