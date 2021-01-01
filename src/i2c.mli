@@ -2,9 +2,9 @@ type t = private Unix.file_descr
 
 val set_address : Unix.file_descr -> int -> (t, [> `EUnix of Unix.error ]) Result.result
 val write_quick : t -> Stdint.uint8 -> (unit, [> `EUnix of Unix.error ]) Result.result
-val read_byte : t -> (Stdint.uint8 list, [> `EUnix of Unix.error ]) Result.result
+val read_byte : t -> (Stdint.uint8, [> `EUnix of Unix.error ]) Result.result
 val write_byte : t -> Stdint.uint8 -> (unit, [> `EUnix of Unix.error ]) Result.result
-val read_byte_data : t -> Stdint.uint8 -> (Stdint.uint8 list, [> `EUnix of Unix.error ]) Result.result
+val read_byte_data : t -> Stdint.uint8 -> (Stdint.uint8, [> `EUnix of Unix.error ]) Result.result
 val write_byte_data : t -> Stdint.uint8 -> Stdint.uint8 -> (unit, [> `EUnix of Unix.error ]) Result.result
 val read_word_data : t -> Stdint.uint8 -> (Stdint.uint16, [> `EUnix of Unix.error ]) Result.result
 val write_word_data : t -> Stdint.uint8 -> Stdint.uint16 -> (unit, [> `EUnix of Unix.error ]) Result.result
