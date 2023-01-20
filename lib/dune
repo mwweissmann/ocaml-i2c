@@ -1,0 +1,8 @@
+(library
+  (name i2c)
+  (public_name i2c)
+  (libraries unix stdint result) 
+  (foreign_stubs
+    (language c)
+    (names i2c_stubs)
+    (include_dirs (lib stdint))))

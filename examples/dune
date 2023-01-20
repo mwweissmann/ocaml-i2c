@@ -1,0 +1,3 @@
+(executable
+  (name mcp23017)
+  (libraries i2c))
