@@ -1,6 +1,6 @@
 (library
- (name i2c)
- (public_name i2c)
+ (name i2c_unix)
+ (public_name i2c-unix)
  (libraries unix stdint)
  (flags -w -27)
  (ctypes

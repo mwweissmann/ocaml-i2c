@@ -39,5 +39,8 @@ let process_call = wr3 F.process_call
 let set_address = wr2 F.set_address
 
 let open_device name address =
+  let name = "/dev/" ^ name in
   let fd = Unix.(openfile name [ O_RDWR ] 0o644) in
   Result.map (fun () -> fd) (set_address fd address)
+
+let close_device t = Unix.close t

@@ -1,41 +1,36 @@
-# ocaml-i2c
-ocaml-i2c provides an interface to the i2c bus via the Linux i2c-dev module.
+# i2c-unix
 
-## API
-```ocaml
-type t = private Unix.file_descr
+This library provides bindings to the `i2c-dev` module of the Linux kernel to
+access the I2C bus from user space.
 
-val set_address : Unix.file_descr -> int -> (t, [> `EUnix of Unix.error ]) Result.result
+It is partly inspired by the older [ocaml-i2c](https://github.com/mwweissmann/ocaml-i2c) library by Markus Weissmann, aiming to use more modern tools.
 
-val write_quick : t -> Stdint.uint8 -> (unit, [> `EUnix of Unix.error ]) Result.result
-val read_byte : t -> (Stdint.uint8, [> `EUnix of Unix.error ]) Result.result
-val write_byte : t -> Stdint.uint8 -> (unit, [> `EUnix of Unix.error ]) Result.result
-val read_byte_data : t -> Stdint.uint8 -> (Stdint.uint8, [> `EUnix of Unix.error ]) Result.result
-val write_byte_data : t -> Stdint.uint8 -> Stdint.uint8 -> (unit, [> `EUnix of Unix.error ]) Result.result
-val read_word_data : t -> Stdint.uint8 -> (Stdint.uint16, [> `EUnix of Unix.error ]) Result.result
-val write_word_data : t -> Stdint.uint8 -> Stdint.uint16 -> (unit, [> `EUnix of Unix.error ]) Result.result
-val process_call : t -> Stdint.uint8 -> Stdint.uint16 -> (Stdint.uint16, [> `EUnix of Unix.error ]) Result.result
-val read_block_data : t -> Stdint.uint8 -> (Stdint.uint8 list, [> `EUnix of Unix.error ]) Result.result
-val write_block_data : t -> Stdint.uint8 -> Stdint.uint8 list -> (unit, [> `EUnix of Unix.error ]) Result.result
-val read_i2c_block_data : t -> Stdint.uint8 -> Stdint.uint8 -> Stdint.uint8 -> (Stdint.uint8 list, [> `EUnix of Unix.error ]) Result.result
-val write_i2c_block_data : t -> Stdint.uint8 -> Stdint.uint8 list -> (unit, [> `EUnix of Unix.error ]) Result.result
-val block_process_call : t -> Stdint.uint8 -> Stdint.uint8 list -> (Stdint.uint8 list, [> `EUnix of Unix.error ]) Result.result
-```                                                                                                
+Its API is very straightforward and documented [online](FIXME).
+
+## Installation
+
+> Run `opam install i2c-unix`
+
+You will have to have the SMBus i2c headers available on your system for the
+package to build, provided by `i2c-tools` on Arch Linux or `libi2c-dev` on
+Debian.
+
 ## Usage
-First make sure you have loaded the ```i2c-dev``` module and there is a ```/dev/i2c-0``` device.
-In OCaml you then can open this device-file:
+
+For the library to work, ensure:
+- the `i2c_dev` kernel module is loaded (`lsmod | grep i2c_dev`)
+- you have an I2C bus attached to the system (`i2cdetect -l`)
+
+Then you can use this library, with the name of the device returned by
+`i2cdetect` (usually of the form `i2c-X`):
+
 ```ocaml
+(* This snippet reads a byte from the bus at address 0x20 *)
+let (let*) = Result.bind
+
 let i2c =
-  let i2c_address = 0x20 in
-  let fd = Unix.(openfile "/dev/i2c-0" [O_RDWR] 0x644) in
-  match I2c.set_address fd i2c_address with
-  | Result.Ok x -> x
-  | Result.Error _ -> failwith "oops"
+  let* t = I2c_unix.open_device "i2c-1" 0x20 in
+  let* b : Stdint.uint8 = I2c_unix.read_byte t in
+  (* do something with b *)
+  I2c_unix.close_device t
 ```  
-
-You can now use the read/write functions to read/write from/to your device at address ```0x20```
-
-
-The source code of ocaml-i2c is available under the MIT license; the included Linux header file is under GPL2.
-
-This library is originally written by [Markus Weissmann](http://www.mweissmann.de/)
