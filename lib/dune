@@ -1,0 +1,20 @@
+(library
+ (name i2c)
+ (public_name i2c)
+ (libraries unix stdint)
+ (flags -w -27)
+ (ctypes
+  (external_library_name libi2c)
+  (headers
+   (preamble %{read:set_address.h}))
+  (build_flags_resolver
+   (vendored
+    (c_library_flags :standard "-li2c")))
+  (type_description
+   (instance Type)
+   (functor Type_description))
+  (function_description
+   (instance Function)
+   (errno_policy return_errno)
+   (functor Function_description))
+  (generated_entry_point C)))

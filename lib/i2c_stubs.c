@@ -18,8 +18,8 @@
 #include <caml/fail.h>
 #include <caml/unixsupport.h>
 
-#include <ocaml_stdint/uint8.h>
-#include <ocaml_stdint/uint16.h>
+#include "uint8.h"
+#include "uint16.h"
 
 #include "i2c-dev.h"
 
